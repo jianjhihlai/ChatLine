@@ -20,7 +20,7 @@ from chatnote.notecost import NoteCost
 
 logger = logging.getLogger(__name__)
 
-print(settings.LINEMESSAGING)
+logger.info("Request body: " + str(settings.LINEMESSAGING))
 
 line_bot_api = LineBotApi(settings.LINEMESSAGING.access_token)
 handler = WebhookHandler(settings.LINEMESSAGING.secret)
