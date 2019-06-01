@@ -22,8 +22,8 @@ logger = logging.getLogger(__name__)
 
 logger.info("Request body: " + str(settings.LINEMESSAGING))
 
-line_bot_api = LineBotApi(settings.LINEMESSAGING['access_token'])
-handler = WebhookHandler(settings.LINEMESSAGING['secret'])
+line_bot_api = LineBotApi(settings.LINEMESSAGING_SECRET)
+handler = WebhookHandler(settings.LINEMESSAGING_TOKEN)
 
 
 # Create your views here.
