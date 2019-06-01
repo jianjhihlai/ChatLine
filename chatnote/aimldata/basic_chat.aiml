@@ -1,0 +1,59 @@
+<aiml version="1.0.1" encoding="UTF-8">
+<!-- basic_chat.aiml -->
+
+    <category>
+        <pattern>你好</pattern>
+        <template>
+            你也好。
+        </template>
+    </category>
+  
+    <category>
+        <pattern>你是誰</pattern>
+        <template>
+            我就是個聊天貓。
+        </template>
+    </category>
+
+    <category>
+        <pattern>我曾經*</pattern>
+        <template>
+            <random>
+                <li>請繼續…</li>
+                <li>你幾歲了?</li>
+                <li>請明確一點。</li>
+                <li>我並不知道那件事。</li>
+                <li>你說的是事實嗎??</li>
+                <li>我不知道你的意思。</li>
+                <li>可以換種說法嗎?</li>
+                <li>那是什麼?</li>
+            </random>
+        </template>
+    </category>
+    <category>
+        <pattern>我的狗叫*</pattern>
+        <template>
+            原來你有一隻狗叫<set name="dog"><star/></set>
+        </template> 
+    </category> 
+    <category>
+        <pattern>你知道我有一隻狗嗎</pattern>
+        <template>
+            知道呀!你有一隻狗叫 <get name="dog"/>。
+        </template> 
+    </category>
+    <category>
+        <pattern>*</pattern>
+        <template>
+            <random>
+                <li>不清楚您在說什麼?請再說一次。</li>
+                <li>我們的資料沒有您說的資訊，可否換個說法。</li>
+                <li>很抱歉，我無法了解你的明白。</li>
+                <li>你在開玩笑嗎?別跟我說這麼難的事。</li>
+                <li>你說的是真的嗎?真不敢置信。</li>
+                <li>也許你可以找別人聊聊。</li>
+            </random>
+        </template>
+    </category>
+  
+</aiml>
