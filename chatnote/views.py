@@ -30,7 +30,7 @@ logger.info("token: " + settings.LINEMESSAGING_TOKEN)
 # Create your views here.
 def main(request):
     # get X-Line-Signature header value
-    return render(request, 'errors/variables.html', {'variables': settings.LINEMESSAGING_SECRET})
+    return render(request, 'errors/variables.html', {'variables': settings.LINEMESSAGING_TOKEN})
 
     # if request.method == 'POST':
     #     signature = request.META['HTTP_X_LINE_SIGNATURE']
