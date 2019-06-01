@@ -87,8 +87,9 @@ DATABASES = {
 }
 
 # Line messanger
-LINEMESSAGING_SECRET = 'your channel secret'
-LINEMESSAGING_TOKEN = 'your channel access token'
+LINEMESSAGING_TOKEN = os.environ['LINEMESSAGING_TOKEN']
+LINEMESSAGING_SECRET = os.environ['LINEMESSAGING_SECRET']
+
 
 # Password validation
 # https://docs.djangoproject.com/en/2.1/ref/settings/#auth-password-validators
