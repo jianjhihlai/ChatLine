@@ -41,9 +41,9 @@ def main(request):
         try:
             handler.handle(body, signature)
         except InvalidSignatureError:
-            return HttpResponseForbidden()
+            return render(request, 'errors/variables.html', {'variables': 'signature error'})
         except LineBotApiError:
-            return HttpResponseBadRequest()
+            return render(request, 'errors/variables.html', {'variables': 'linebotapi error'})
         return HttpResponse()
     else:
         return render(request, 'errors/variables.html', {'variables': request.META})
