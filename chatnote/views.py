@@ -27,42 +27,42 @@ handler = WebhookHandler(settings.LINEMESSAGING_TOKEN)
 # Create your views here.
 def main(request):
     # get X-Line-Signature header value
-    return render(request, 'errors/variables.html', {'variables': settings.LINEMESSAGING_TOKEN})
+    # return render(request, 'errors/variables.html', {'variables': settings.LINEMESSAGING_TOKEN})
 
-    # if request.method == 'POST':
-    #     signature = request.META['HTTP_X_LINE_SIGNATURE']
+    if request.method == 'POST':
+        signature = request.META['HTTP_X_LINE_SIGNATURE']
 
-    #     # get request body as text
-    #     body = request.body.decode('utf-8')
-    #     # body = json.loads(request.body)
-    #     logger.info("Request body: " + body)
+        # get request body as text
+        body = request.body.decode('utf-8')
+        # body = json.loads(request.body)
+        logger.info("Request body: " + body)
 
-    #     # handle webhook body
-    #     try:
-    #         handler.handle(body, signature)
-    #     except InvalidSignatureError:
-    #         return HttpResponseForbidden()
-    #     except LineBotApiError:
-    #         return HttpResponseBadRequest()
-    #     return HttpResponse()
-    # else:
-    #     return HttpResponseBadRequest()
+        # handle webhook body
+        try:
+            handler.handle(body, signature)
+        except InvalidSignatureError:
+            return HttpResponseForbidden()
+        except LineBotApiError:
+            return HttpResponseBadRequest()
+        return HttpResponse()
+    else:
+        return render(request, 'errors/variables.html', {'variables': request.META})
 
-# @handler.add(MessageEvent, message=TextMessage)
-# def handle_text_message(event):
-#     print(event.source)
-#     processor = NoteCost(event.message.text, event.source.user_id)
-#     reply = processor.response()
-#     line_bot_api.reply_message(
-#         event.reply_token,
-#         TextSendMessage(text=reply)
-#     )
+@handler.add(MessageEvent, message=TextMessage)
+def handle_text_message(event):
+    print(event.source)
+    processor = NoteCost(event.message.text, event.source.user_id)
+    reply = processor.response()
+    line_bot_api.reply_message(
+        event.reply_token,
+        TextSendMessage(text=reply)
+    )
 
-# @handler.default()
-# def default(event):
-#     logger.info(event)
-#     line_bot_api.reply_message(
-#         event.reply_token,
-#         TextSendMessage(text='不支援非文字訊息')
-#     )
+@handler.default()
+def default(event):
+    logger.info(event)
+    line_bot_api.reply_message(
+        event.reply_token,
+        TextSendMessage(text='不支援非文字訊息')
+    )
 
