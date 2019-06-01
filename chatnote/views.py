@@ -23,48 +23,49 @@ logger = logging.getLogger(__name__)
 logger.info("secret: " + settings.LINEMESSAGING_SECRET)
 logger.info("token: " + settings.LINEMESSAGING_TOKEN)
 
-line_bot_api = LineBotApi(settings.LINEMESSAGING_SECRET)
-handler = WebhookHandler(settings.LINEMESSAGING_TOKEN)
+# line_bot_api = LineBotApi(settings.LINEMESSAGING_SECRET)
+# handler = WebhookHandler(settings.LINEMESSAGING_TOKEN)
 
 
 # Create your views here.
 def main(request):
     # get X-Line-Signature header value
-    # return render(request, 'errors/variables.html', {'variables': request.META})
-    if request.method == 'POST':
-        signature = request.META['HTTP_X_LINE_SIGNATURE']
+    return render(request, 'errors/variables.html', {'variables': settings.LINEMESSAGING_SECRET})
 
-        # get request body as text
-        body = request.body.decode('utf-8')
-        # body = json.loads(request.body)
-        logger.info("Request body: " + body)
+    # if request.method == 'POST':
+    #     signature = request.META['HTTP_X_LINE_SIGNATURE']
 
-        # handle webhook body
-        try:
-            handler.handle(body, signature)
-        except InvalidSignatureError:
-            return HttpResponseForbidden()
-        except LineBotApiError:
-            return HttpResponseBadRequest()
-        return HttpResponse()
-    else:
-        return HttpResponseBadRequest()
+    #     # get request body as text
+    #     body = request.body.decode('utf-8')
+    #     # body = json.loads(request.body)
+    #     logger.info("Request body: " + body)
 
-@handler.add(MessageEvent, message=TextMessage)
-def handle_text_message(event):
-    print(event.source)
-    processor = NoteCost(event.message.text, event.source.user_id)
-    reply = processor.response()
-    line_bot_api.reply_message(
-        event.reply_token,
-        TextSendMessage(text=reply)
-    )
+    #     # handle webhook body
+    #     try:
+    #         handler.handle(body, signature)
+    #     except InvalidSignatureError:
+    #         return HttpResponseForbidden()
+    #     except LineBotApiError:
+    #         return HttpResponseBadRequest()
+    #     return HttpResponse()
+    # else:
+    #     return HttpResponseBadRequest()
 
-@handler.default()
-def default(event):
-    logger.info(event)
-    line_bot_api.reply_message(
-        event.reply_token,
-        TextSendMessage(text='不支援非文字訊息')
-    )
+# @handler.add(MessageEvent, message=TextMessage)
+# def handle_text_message(event):
+#     print(event.source)
+#     processor = NoteCost(event.message.text, event.source.user_id)
+#     reply = processor.response()
+#     line_bot_api.reply_message(
+#         event.reply_token,
+#         TextSendMessage(text=reply)
+#     )
+
+# @handler.default()
+# def default(event):
+#     logger.info(event)
+#     line_bot_api.reply_message(
+#         event.reply_token,
+#         TextSendMessage(text='不支援非文字訊息')
+#     )
 
