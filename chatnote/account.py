@@ -195,7 +195,7 @@ class AimlNote:
         findaiml = re.search(pattern, text, flags=re.S | re.M | re.I)
         if findaiml is not None:
             found = findaiml.group()
-            with open(self.userid + datetime.now().strftime('%Y%m%d%H%M%S') + '.aiml', 'w') as f:
+            with open(self.userid + datetime.datetime.now().strftime('%Y%m%d%H%M%S') + '.aiml', 'w') as f:
                 f.write(found)
             return True
         else:
