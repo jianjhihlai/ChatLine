@@ -35,7 +35,7 @@ def main(request):
         # get request body as text
         body = request.body.decode('utf-8')
         # body = json.loads(request.body)
-        logger.info("Request body: " + body)
+        logger.warn("Request body: " + body)
 
         # handle webhook body
         try:
