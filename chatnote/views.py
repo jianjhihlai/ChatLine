@@ -20,8 +20,8 @@ from chatnote.notecost import NoteCost
 
 logger = logging.getLogger(__name__)
 
-line_bot_api = LineBotApi(settings.LINEMESSAGING_SECRET)
-handler = WebhookHandler(settings.LINEMESSAGING_TOKEN)
+line_bot_api = LineBotApi(settings.LINEMESSAGING_TOKEN)
+handler = WebhookHandler(settings.LINEMESSAGING_SECRET)
 
 
 # Create your views here.
@@ -35,18 +35,18 @@ def main(request):
         # get request body as text
         body = request.body.decode('utf-8')
         # body = json.loads(request.body)
-        logger.warn("Request body: " + body)
+        logger.info("Request body: " + body)
 
         # handle webhook body
         try:
             handler.handle(body, signature)
         except InvalidSignatureError:
-            logger.warn('signature error: '+signature)
+            return HttpResponseForbidden()
         except LineBotApiError:
-            logger.warn('linebotapierror: '+signature)
+            return HttpResponseBadRequest()
         return HttpResponse()
     else:
-        return render(request, 'errors/variables.html', {'variables': request.META})
+        return HttpResponseBadRequest()
 
 @handler.add(MessageEvent, message=TextMessage)
 def handle_text_message(event):
